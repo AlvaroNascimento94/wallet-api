@@ -1,10 +1,13 @@
 import bcrypt from "bcrypt"
 import authRepository from "../repositories/authRepository.js"
 
-function singup(body) {
+async function singup(body) {
   const hasPassord = bcrypt.hashSync(body.password,10)
 
-  return authRepository.create({...body, password:hasPassord})
+  const userExists = await authRepository.findByEmail(body.email)
+  if(userExists) throw new Error("User already existis!")
+
+  return await authRepository.create({...body, password:hasPassord})
   
 }
 

@@ -1,8 +1,10 @@
 import authServices from "../services/authServices.js";
 
-function singup(req, res) {
+async function singup(req, res) {
     const body = req.body;
-    const resService = authServices.singup(body)
+
+    const resService = await authServices.singup(body)
+    
     res.send(resService)
 }
 
