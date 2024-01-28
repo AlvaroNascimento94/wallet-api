@@ -11,4 +11,14 @@ async function singup(body) {
   
 }
 
-export default { singup };
+async function singin(body){
+  const userExists = await authRepository.findByEmail(body.email)
+  if(!userExists) throw new Error("email or password incorrect!")
+  
+  const password = bcrypt.compareSync(body.password,userExists.password)
+  if(!password) throw new Error("email or password incorrect!")
+
+  return authRepository.generateToken(userExists._id);
+}
+
+export default { singup, singin };
