@@ -1,12 +1,18 @@
 import { Router } from "express";
 import transactionController from "../controllers/transactionController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { validationSchemaMiddleware } from "../middlewares/validationSchemaMiddleware.js";
+import { createTransaction } from "../shemas/validation/createTransaction.js";
 
 const transactionRouter = Router();
 
 transactionRouter.use(authMiddleware);
 
-transactionRouter.post("/transactions", transactionController.create);
+transactionRouter.post(
+  "/transactions",
+  validationSchemaMiddleware(createTransaction),
+  transactionController.create
+);
 transactionRouter.get("/transactions", transactionController.findAllByUser);
 
 export default transactionRouter;
