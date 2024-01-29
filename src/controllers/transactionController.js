@@ -4,11 +4,22 @@ async function create(req, res) {
   const body = req.body;
   const { _id: id } = res.locals.user;
   try {
-    const transaction = await transactionService.create(body, id);
-    return res.status(201).send(transaction);
+    const transactions = await transactionService.create(body, id);
+    return res.status(201).send(transactions);
   } catch (err) {
     res.status(409).send(err.message);
   }
 }
 
-export default { create };
+async function findAllByUser(req, res) {
+  const { _id: id } = res.locals.user;
+
+  try {
+    const transactions = await transactionService.findAllByUser(id);
+    return res.status(201).send(transactions);
+  } catch (err) {
+    res.status(404).send(err.message);
+  }
+}
+
+export default { create, findAllByUser };
