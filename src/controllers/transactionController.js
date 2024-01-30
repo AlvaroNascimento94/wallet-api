@@ -22,4 +22,26 @@ async function findAllByUser(req, res) {
   }
 }
 
-export default { create, findAllByUser };
+async function findAndUpdate(req, res) {
+  const id = req.params.id
+  const body = req.body
+
+  try {
+    const result = await transactionService.findAndUpdate(id,body)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
+
+}
+async function findAndDelete(req, res) {
+  const id = req.params.id
+  try {
+    const result = await transactionService.findAndDelete(id)
+    res.status(200).send(result)
+  } catch (error) {
+    res. status(404).send(error.message)
+  }
+}
+
+export default { create, findAllByUser, findAndUpdate, findAndDelete };

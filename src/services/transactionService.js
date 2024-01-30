@@ -10,4 +10,17 @@ async function findAllByUser(id){
     return await transactionRepository.findAllByUser(id)
 }
 
-export default {create, findAllByUser}
+async function findAndUpdate(id, {value,description,type}){
+    if(!id) throw new Error("Id not found")
+    await transactionRepository.findAndUpdate(id,value,description,type)
+return ("Change successfully")
+}
+
+async function findAndDelete(id){
+    if(!id) throw new Error("Id not found")
+    await transactionRepository.findAndDelete(id)
+    return ("Delete Successfully")
+
+}
+
+export default {create, findAllByUser,findAndUpdate, findAndDelete}
